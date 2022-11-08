@@ -1,5 +1,9 @@
 import random
 import time
+import turtle
+
+from PIL import ImageColor
+
 global window_details
 
 
@@ -69,6 +73,7 @@ def configure_handler(event):
         # print('r=', r)
         global window_details
         window_details = r
+        # print("window_details=", window_details)
 
     # print("window_details=", window_details)
     # print("results =", results)
@@ -90,3 +95,67 @@ def print_widget_keys(widget):
         print('key:value =', key, ':', widget[key])
         # print('value=', root[key])
         # print('value= ', value)
+
+
+def get_lighter_hex_color(original_hex_color):
+    original_rgb_color = ImageColor.getcolor(original_hex_color, "RGB")
+    original_rgb_color = str(original_rgb_color).strip('()')
+    # print(original_rgb_color)
+    rgb_tuple = original_rgb_color.split(', ')
+    # print("rgb_tuple=", rgb_tuple)
+    r, g, b = rgb_tuple
+    dark_r = (int(r) + 10) % 255
+    dark_g = (int(g) + 10) % 255
+    dark_b = (int(b) + 10) % 255
+
+    dark_r = hex(dark_r).strip('0x')
+    dark_g = hex(dark_g).strip('0x')
+    dark_b = hex(dark_b).strip('0x')
+
+    while len(dark_r) < 2:
+        dark_r = str('0') + dark_r
+    while len(dark_g) < 2:
+        dark_g = str('0') + dark_g
+    while len(dark_b) < 2:
+        dark_b = str('0') + dark_b
+    return str('#' + dark_r + dark_g + dark_b)
+
+
+def fill_widget_children(parent_widget):
+    for (string, widget) in parent_widget.children.items():
+        # print("string=", string)
+        # print("widget=", widget)
+        # rgb = (get_random_color_number(), get_random_color_number(), get_random_color_number())
+        rgb = get_random_rgb_tuple()
+        # widget.config(bg=get_lighter_hex_color(widget.master["background"]))
+        fg = widget["background"]
+        for i in range(1, 15):
+            # lighten our color 15 times
+            fg = get_lighter_hex_color(fg)
+        try:
+            widget.config(fg=fg)
+        except:
+            print('Widget:', str(widget), "doesn't have a fg variable")
+        w = max(widget.master.winfo_reqwidth(), widget.master.winfo_width())
+        widget.configure(width=w)
+
+        # widget.config(sticky='nsew')
+
+
+def create_hex_color_palette():
+    hex_color_palette = []
+    for _ in range(1, 10):
+        hex_color_palette.append(get_hex_from_rgb_tuple(get_random_rgb_tuple()))
+    return hex_color_palette
+
+
+# method to perform action
+def fxn(x_turtle, x, y):
+    x_turtle.goto(x, y)
+    x_turtle.write(str(x) + "," + str(y))
+    print("THgagfilusnflaskjnf")
+
+
+def get_position(i,j):
+    print("(", i, "," ,j,")")
+    return
