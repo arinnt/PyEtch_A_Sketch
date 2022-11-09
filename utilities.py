@@ -1,6 +1,5 @@
 import random
 import time
-import turtle
 
 from PIL import ImageColor
 

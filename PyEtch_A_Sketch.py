@@ -2,8 +2,6 @@ import turtle
 from tkinter import *
 from tkinter import ttk
 
-import mouseinfo
-
 from utilities import *
 
 global root_x, root_y, root_w, root_h
@@ -86,10 +84,7 @@ s.configure('controller.wide.TButton', background=color_etch_a_sketch_body)
 s.configure('controller.tall.TButton', background=color_etch_a_sketch_body)
 s.configure("TLabel", background=get_lighter_hex_color(color_etch_a_sketch_body))
 s.configure('new.TLabel', background=get_lighter_hex_color(color_etch_a_sketch_body))
-
-# print(s)
-# frm = Frame(root)
-# print("root.winfo_width()", root.winfo_width())
+s.configure('YAPE.TLabel', background=color_etch_a_sketch_body, fg=hex_color_palette[3], font=("Arial", 25))
 
 # To Do List:
 # implement geometry in the  configuration module
@@ -121,7 +116,7 @@ etch_screen.onclick(etcher.goto)
 
 # sketch_canvas.pack(side='top', fill=BOTH, expand=True)
 sketch_canvas.pack(side='top')
-# sketch_canvas.master.update()
+
 sketch_xpadding = .05 * (frm.master.winfo_width())
 sketch_ypadding = .025 * (frm.master.winfo_height())
 
@@ -139,7 +134,7 @@ horizontal_control_left = ttk.Button(controller_frame, image=red_arrow_image_lef
 horizontal_control_left.grid(column=0, row=1, rowspan=2, ipady=root.winfo_screenheight() * .01)
 horizontal_control_right = ttk.Button(controller_frame, image=red_arrow_image_right, style='controller.tall.TButton',
                                       command=right_button_pressed)
-# horizontal_control_right.grid(column=1, row=1, rowspan=2, sticky='nsew')
+
 horizontal_control_right.grid(column=1, row=1, rowspan=2, ipady=root.winfo_screenheight() * .01)
 
 vertical_control_up = ttk.Button(controller_frame, image=red_arrow_image_up, style='controller.wide.TButton',
@@ -150,11 +145,13 @@ vertical_control_down = ttk.Button(controller_frame, image=red_arrow_image_down,
                                    command=down_button_pressed)
 vertical_control_down.grid(column=9, row=2, ipadx=root.winfo_screenwidth() * .01)
 
-py_etch_label_frame = ttk.Label(controller_frame, text='YAPEtch \'a Sketch')
-py_etch_label_frame.grid(column=5, row=2)
+py_etch_label = ttk.Label(controller_frame, text='YAPEtch \'a Sketch', style='YAPE.TLabel')
+py_etch_label.grid(column=5, row=1)
+
 quit_button_xpadding = (root.winfo_screenwidth() * .6) / 2
-ttk.Button(controller_frame, text="Quit", command=root.destroy).grid(column=5, row=4, padx=quit_button_xpadding,
-                                                                     sticky='s')
+ttk.Button(controller_frame, text="Quit", command=root.destroy, style='controller.wide.TButton').grid(column=5, row=4,
+                                                                                                      padx=quit_button_xpadding,
+                                                                                                      sticky='s')
 
 # for i in range(controller_frame.winfo_width()+1):
 #     controller_frame.grid_columnconfigure(i, weight=1, uniform="foo")
@@ -173,25 +170,15 @@ sketch_canvas.config(width=frm.master.winfo_width() - (2 * sketch_xpadding),
 # width=controller_frame.master.winfo_width(), bg=color_etch_a_sketch_body)
 controller_frame.config(height=controller_frame.master.winfo_height() - sketch_canvas.winfo_height(),
                         width=controller_frame.master.winfo_width(), style="controller.TFrame")
-# py_etch_label_frame.config(width=int(.05 * py_etch_label_frame.master.winfo_width()),
-#                            height=int(.05 * py_etch_label_frame.master.winfo_height()))
-py_etch_label_frame.config(background=color_etch_a_sketch_body, style="TFrame")
 frm.config(style="frm.TFrame")
-# etcher.setpos(sketch_canvas.winfo_width()/2, sketch_canvas.winfo_height()/2)
-# etcher.setpos(0,0)
 
 horizontal_control_left.config(width=int(horizontal_control_left.master["width"]))
-print(int(horizontal_control_left.master["width"]))
-print(horizontal_control_left.master.winfo_width())
+
+
 # print('globals()=', globals())
 # if window_details in globals():
 #     if window_details is not window_details:
 #         sketch_canvas.config(width=root.winfo_width() - 4, height=root.winfo_height() - 80)
-
-# root.bind("space", up_button_pressed)
-# root.bind('space', up_button_pressed)
-root.bind('<space>', up_button_pressed)
-
 
 def a_pressed(x):
     print(x)
