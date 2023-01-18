@@ -29,7 +29,8 @@ def right():
     etcher.seth(360)
     etcher.forward(5)
     etch_screen.onkeypress(right, 'Right')
-    x, y = pos
+    x, y = etcher.pos()
+    print(abs(x), ",", abs(y))
     if abs(max(x, y)) > 10:
         print("BOUNCE!!!")
 
@@ -46,6 +47,7 @@ def down():
     etch_screen.onkeypress(None, 'Down')
     etcher.seth(270)
     etcher.forward(5)
+    print(etcher.heading())
     etch_screen.onkeypress(down, 'Down')
 
 
@@ -59,7 +61,7 @@ def right_button_pressed():
     etcher.fd(etcher.width())
 
 
-def up_button_pressed(kwargs):
+def up_button_pressed():
     etcher.seth(90)
     etcher.fd(etcher.width())
 
@@ -114,6 +116,8 @@ red_arrow_image_down = red_arrow_down.subsample(int(root.winfo_screenwidth() / 1
 
 sketch_canvas = Canvas(frm, bg=hex_color_palette[1])
 etcher = turtle.RawTurtle(sketch_canvas)
+etcher.colormode = 1.0
+etcher.color((.1, 0.1, 0.1))
 etch_screen = etcher.getscreen()
 etch_screen.onclick(etcher.goto)
 # etch_screen.onclick(fxn(etcher, sketch_canvas.winfo_pointerx(), sketch_canvas.winfo_pointery()))
@@ -155,7 +159,7 @@ quit_button_xpadding = (root.winfo_screenwidth() * .6) / 2
 ttk.Button(controller_frame, text="Quit", command=root.destroy).grid(column=5, row=4, padx=quit_button_xpadding,
                                                                      sticky='s')
 
-ttk.Label(controller_frame, style= "YAP.TLabel",text='YAPEtch \'a Sketch', background=hex_color_palette[1]).grid(column=5, row=0, columnspan=4)
+ttk.Label(controller_frame, style="YAP.TLabel",text='PyEtch_A_Sketch', background=hex_color_palette[1]).grid(column=5, row=0, columnspan=4)
 
 # for i in range(controller_frame.winfo_width()+1):
 #     controller_frame.grid_columnconfigure(i, weight=1, uniform="foo")
@@ -194,33 +198,72 @@ root.bind('<space>', up_button_pressed)
 
 
 def a_pressed(x):
-    print(x)
+    print(etcher.pos())
     # etcher.fd(etcher.width())
     left_button_pressed()
 
 
 def d_pressed(x):
-    print(x)
+    print(etcher.pos())
     # etcher.fd(etcher.width())
     right_button_pressed()
 
 
 def s_pressed(x):
-    print(x)
+    print(etcher.pos())
     # etcher.fd(etcher.width())
     down_button_pressed()
 
 
 def w_pressed(x):
-    print(x)
+    print(etcher.pos())
     # etcher.fd(etcher.width())
-    up_button_pressed(x)
+    up_button_pressed()
+
+
+def r_pressed(x):
+    print("color: ", etcher.color())
+    # etcher.colormode = 255
+    etch_colors = etcher.color()[0]
+    r = etch_colors[0]
+    g = etch_colors[1]
+    b = etch_colors[2]
+    if r <1.0:
+        r = (r + .05) % 1.0
+    etcher.color(r, g, b)
+
+
+def g_pressed(x):
+    print("color: ", etcher.color())
+    # etcher.colormode = 255
+    etch_colors = etcher.color()[0]
+    r = etch_colors[0]
+    g = etch_colors[1]
+    b = etch_colors[2]
+    if g <1.0:
+        g = (g + .05) % 1.0
+    etcher.color(r, g, b)
+
+
+def b_pressed(x):
+    print("color: ", etcher.color())
+    # etcher.colormode = 255
+    etch_colors = etcher.color()[0]
+    r = etch_colors[0]
+    g = etch_colors[1]
+    b = etch_colors[2]
+    if b <1.0:
+        b = (b + .05) % 1.0
+    etcher.color(r, g, b)
 
 
 root.bind('w', w_pressed)
 root.bind('a', a_pressed)
 root.bind('s', s_pressed)
 root.bind('d', d_pressed)
+root.bind('r', r_pressed)
+root.bind('g', g_pressed)
+root.bind('b', b_pressed)
 etch_screen.onkeypress(left, 'Left')
 etch_screen.onkeypress(right, 'Right')
 etch_screen.onkeypress(up, 'Up')
