@@ -19,7 +19,7 @@ def left():
     etcher.forward(5)
     etch_screen.onkeypress(left, 'Left')
     x, y = pos
-    print("x, y =", x, y)
+    # print("x, y =", x, y)
     if abs(max(x, y)) > 10:
         print("BOUNCE!!!")
 
@@ -36,7 +36,7 @@ def right():
 
 def up():
     etch_screen.onkeypress(None, 'Up')
-    print(vertical_control_up.state())
+    # print(vertical_control_up.state())
     etcher.seth(90)
     etcher.forward(5)
     etch_screen.onkeypress(up, 'Up')
@@ -55,10 +55,8 @@ def left_button_pressed():
 
 
 def right_button_pressed():
-    etch_screen.onkeypress(None, 'Right')
     etcher.seth(360)
     etcher.fd(etcher.width())
-    etch_screen.onkeypress(right, 'Right')
 
 
 def up_button_pressed(kwargs):
@@ -76,16 +74,17 @@ setup_configure_handler(root)
 root.geometry(str(int(root.winfo_screenwidth() * .9)) + "x" + str(int(root.winfo_screenheight() * .75)))
 root.config(bg=color_etch_a_sketch_body)
 frm = ttk.Frame(root)
-s = ttk.Style()
+style = ttk.Style()
 
-s.configure('new.TFrame', background=color_etch_a_sketch_body)
 print("root.keys()=", )
-s.configure('frm.TFrame', background=color_etch_a_sketch_body)
-s.configure('controller.TFrame', background=color_etch_a_sketch_body)
-s.configure('controller.wide.TButton', background=color_etch_a_sketch_body)
-s.configure('controller.tall.TButton', background=color_etch_a_sketch_body)
-s.configure("TLabel", background=get_lighter_hex_color(color_etch_a_sketch_body))
-s.configure('new.TLabel', background=get_lighter_hex_color(color_etch_a_sketch_body))
+style.configure('new.TFrame', background=color_etch_a_sketch_body)
+style.configure('frm.TFrame', background=color_etch_a_sketch_body)
+style.configure('controller.TFrame', background=color_etch_a_sketch_body)
+style.configure('controller.wide.TButton', background=color_etch_a_sketch_body)
+style.configure('controller.tall.TButton', background=color_etch_a_sketch_body)
+style.configure("TLabel", background=get_lighter_hex_color(color_etch_a_sketch_body))
+style.configure('new.TLabel', background=get_lighter_hex_color(color_etch_a_sketch_body))
+style.configure("YAP.TLabel", background=hex_color_palette[1], foreground=get_lighter_hex_color(color_etch_a_sketch_body))
 
 # print(s)
 # frm = Frame(root)
@@ -151,10 +150,12 @@ vertical_control_down = ttk.Button(controller_frame, image=red_arrow_image_down,
 vertical_control_down.grid(column=9, row=2, ipadx=root.winfo_screenwidth() * .01)
 
 py_etch_label_frame = ttk.Label(controller_frame, text='YAPEtch \'a Sketch')
-py_etch_label_frame.grid(column=5, row=2)
+py_etch_label_frame.grid(column=5, row=2, rowspan=4, sticky='n')
 quit_button_xpadding = (root.winfo_screenwidth() * .6) / 2
 ttk.Button(controller_frame, text="Quit", command=root.destroy).grid(column=5, row=4, padx=quit_button_xpadding,
                                                                      sticky='s')
+
+ttk.Label(controller_frame, style= "YAP.TLabel",text='YAPEtch \'a Sketch', background=hex_color_palette[1]).grid(column=5, row=0, columnspan=4)
 
 # for i in range(controller_frame.winfo_width()+1):
 #     controller_frame.grid_columnconfigure(i, weight=1, uniform="foo")
@@ -181,15 +182,14 @@ frm.config(style="frm.TFrame")
 # etcher.setpos(0,0)
 
 horizontal_control_left.config(width=int(horizontal_control_left.master["width"]))
-print(int(horizontal_control_left.master["width"]))
-print(horizontal_control_left.master.winfo_width())
+# print(int(horizontal_control_left.master["width"]))
+# print(horizontal_control_left.master.winfo_width())
 # print('globals()=', globals())
 # if window_details in globals():
 #     if window_details is not window_details:
 #         sketch_canvas.config(width=root.winfo_width() - 4, height=root.winfo_height() - 80)
 
-# root.bind("space", up_button_pressed)
-# root.bind('space', up_button_pressed)
+
 root.bind('<space>', up_button_pressed)
 
 
