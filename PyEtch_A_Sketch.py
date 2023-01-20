@@ -221,6 +221,19 @@ def w_pressed(x):
     up_button_pressed()
 
 
+def change_to_random_color(x):
+    etcher_colors = etcher.color()[0]
+    r = etcher_colors[0]
+    g = etcher_colors[1]
+    b = etcher_colors[2]
+    r = float((random.randint(1,10)/10))
+    g = float((random.randint(1,10)/10))
+    b = float((random.randint(1,10)/10))
+    etcher.color(r, g, b)
+
+
+
+
 def r_pressed(x):
     print("color: ", etcher.color())
     # etcher.colormode = 255
@@ -257,6 +270,7 @@ def b_pressed(x):
     etcher.color(r, g, b)
 
 
+root.bind('c', change_to_random_color)
 root.bind('w', w_pressed)
 root.bind('a', a_pressed)
 root.bind('s', s_pressed)

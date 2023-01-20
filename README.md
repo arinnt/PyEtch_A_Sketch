@@ -14,3 +14,4 @@ A fun self-challenge to recreate the classic handheld Etch 'a Sketch game!
 	Change Your Color: 
 		Outside of my initial scope, I've added RGB support! 
 		To control color, press the corresponding <R>, <G>, or <B> keys
+        Random Color: Press <C>
