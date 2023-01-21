@@ -2,7 +2,7 @@ import turtle
 from tkinter import *
 from tkinter import ttk
 
-import mouseinfo
+# import mouseinfo
 
 from utilities import *
 
