@@ -47,6 +47,13 @@ def get_hex_from_rgb_tuple(rgb):
     return str('#' + hex_r + hex_g + hex_b)
 
 
+def get_rgb_from_float(rgb_float):
+    r = int(rgb_float[0] * 254)
+    g = int(rgb_float[1] * 254)
+    b = int(rgb_float[2] * 254)
+    return (r, g, b)
+
+
 def get_random_color_int():
     color_number = random.randint(1, 255)
     # green = random.randint(1, 255)

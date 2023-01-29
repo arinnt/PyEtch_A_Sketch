@@ -19,6 +19,7 @@ for _ in range(10):
     else:
         etch_color_palette.append(get_lighter_hex_color(etch_color_palette[_ - 1]))
 
+
 def left():
     etch_screen.onkeypress(None, 'Left')
     etcher.seth(180)
@@ -85,23 +86,25 @@ style = ttk.Style()
 
 print("root.keys()=", )
 style.configure('new.TFrame', background=color_etch_a_sketch_body)
-style.configure('frm.TFrame', background=color_etch_a_sketch_body, foreground=get_lighter_hex_color(color_etch_a_sketch_body))
-style.configure('frm.test', background=color_etch_a_sketch_body, foreground=get_lighter_hex_color(color_etch_a_sketch_body))
+style.configure('frm.TFrame', background=color_etch_a_sketch_body,
+                foreground=get_lighter_hex_color(color_etch_a_sketch_body))
+style.configure('frm.test', background=color_etch_a_sketch_body,
+                foreground=get_lighter_hex_color(color_etch_a_sketch_body))
 style.configure('controller.TFrame', background=color_etch_a_sketch_body)
 style.configure('controller.wide.TButton', background=color_etch_a_sketch_body)
 style.configure('controller.tall.TButton', background=color_etch_a_sketch_body)
-style.configure("TLabel", background=get_lighter_hex_color(color_etch_a_sketch_body))
+
+# Apply change to all following TLabel items
+style.configure("TLabel", background=(color_etch_a_sketch_body))
+
 style.configure('new.TLabel', background=get_lighter_hex_color(color_etch_a_sketch_body))
-style.configure("YAP.TLabel", background=hex_color_palette[1], foreground=get_lighter_hex_color(color_etch_a_sketch_body))
+style.configure("YAP.TLabel", background=hex_color_palette[1],
+                foreground=get_lighter_hex_color(color_etch_a_sketch_body))
 style.configure("Controls.TLabel", background=hex_color_palette[2], foreground=hex_color_palette[2])
-style.configure("Controls_light.TLabel", background=etch_color_palette[random.randint(1,9)], foreground=etch_color_palette[random.randint(1,9)])
-style.configure("Controls_light2.TLabel", background=etch_color_palette[random.randint(1,9)], foreground=etch_color_palette[random.randint(1,9)])
+style.configure("Controls_light.TLabel", foreground="black")
+style.configure("Controls_light2.TLabel", foreground=etch_color_palette[random.randint(1, 9)])
 
 frm = ttk.Frame(root, style='frm.TFrame')
-
-# print(s)
-# frm = Frame(root)
-# print("root.winfo_width()", root.winfo_width())
 
 # To Do List:
 # implement geometry in the  configuration module
@@ -173,11 +176,14 @@ ttk.Button(controller_frame, text="Quit", command=root.destroy).grid(column=5, r
 
 # ttk.Label(controller_frame, style="YAP.TLabel",text='PyEtch_A_Sketch', background=hex_color_palette[1]).grid(column=3, row=0, columnspan=4)
 # # ttk.Label(controller_frame, style="Controls.TLabel",text='Controls:').grid(column=2, row=1)
-ttk.Label(controller_frame, style="Controls_light2.TLabel",text='Random Color: Press <C>').grid(column=5, row=1)
-ttk.Label(controller_frame, style="Controls_light.TLabel",text='Change Pen Color: Press the corresponding <R>, <G>, or <B> keys').grid(column=5, row=2)
-ttk.Label(controller_frame, style="Controls_light.TLabel",text='Small Movements: On-Screen Buttons or WASD').grid(column=4, row=1, columnspan=1)
+ttk.Label(controller_frame, style="Controls_light2.TLabel", text='Random Color: Press <C>').grid(column=5, row=1)
+ttk.Label(controller_frame, style="Controls_light.TLabel",
+          text='Change Pen Color: Press the corresponding <R>, <G>, or <B> keys').grid(column=5, row=2)
+ttk.Label(controller_frame, style="Controls_light.TLabel", text='Small Movements: On-Screen Buttons or WASD').grid(
+    column=4, row=1, columnspan=1)
 # # ttk.Label(controller_frame, style="Controls_light.TLabel",text='Small Movements: WASD').grid(column=5, row=1)
-ttk.Label(controller_frame, style="Controls_light.TLabel",text='Medium Speed Movements: Arrow Keys').grid(column=4, row=2)
+ttk.Label(controller_frame, style="Controls_light.TLabel", text='Medium Speed Movements: Arrow Keys').grid(column=4,
+                                                                                                           row=2)
 
 # for i in range(controller_frame.winfo_width()+1):
 #     controller_frame.grid_columnconfigure(i, weight=1, uniform="foo")
@@ -244,12 +250,21 @@ def change_to_random_color(x):
     r = etcher_colors[0]
     g = etcher_colors[1]
     b = etcher_colors[2]
-    r = float((random.randint(1,10)/10))
-    g = float((random.randint(1,10)/10))
-    b = float((random.randint(1,10)/10))
+    r = float((random.randint(1, 10) / 10))
+    g = float((random.randint(1, 10) / 10))
+    b = float((random.randint(1, 10) / 10))
     etcher.color(r, g, b)
 
 
+def c_pressed(x):
+    change_to_random_color(x)
+    cursor_color = etcher.color()
+    print("cursor_color= ", cursor_color)
+    print("cursor_color[0]= ", cursor_color[0])
+    print("cursor_color[0][0]= ", cursor_color[0][0])
+    rgb = get_hex_from_rgb_tuple(get_rgb_from_float(cursor_color[0]))
+
+    style.configure("Controls_light2.TLabel", foreground=rgb)
 
 
 def r_pressed(x):
@@ -259,7 +274,7 @@ def r_pressed(x):
     r = etch_colors[0]
     g = etch_colors[1]
     b = etch_colors[2]
-    if r <1.0:
+    if r < 1.0:
         r = (r + .05) % 1.0
     etcher.color(r, g, b)
 
@@ -271,7 +286,7 @@ def g_pressed(x):
     r = etch_colors[0]
     g = etch_colors[1]
     b = etch_colors[2]
-    if g <1.0:
+    if g < 1.0:
         g = (g + .05) % 1.0
     etcher.color(r, g, b)
 
@@ -283,12 +298,12 @@ def b_pressed(x):
     r = etch_colors[0]
     g = etch_colors[1]
     b = etch_colors[2]
-    if b <1.0:
+    if b < 1.0:
         b = (b + .05) % 1.0
     etcher.color(r, g, b)
 
 
-root.bind('c', change_to_random_color)
+root.bind('c', c_pressed)
 root.bind('w', w_pressed)
 root.bind('a', a_pressed)
 root.bind('s', s_pressed)
