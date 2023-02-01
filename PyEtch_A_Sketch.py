@@ -95,7 +95,7 @@ style.configure('controller.wide.TButton', background=color_etch_a_sketch_body)
 style.configure('controller.tall.TButton', background=color_etch_a_sketch_body)
 
 # Apply change to all following TLabel items
-style.configure("TLabel", background=(color_etch_a_sketch_body))
+style.configure("TLabel", background=color_etch_a_sketch_body)
 
 style.configure('new.TLabel', background=get_lighter_hex_color(color_etch_a_sketch_body))
 style.configure("YAP.TLabel", background=hex_color_palette[1],
@@ -112,10 +112,10 @@ frm = ttk.Frame(root, style='frm.TFrame')
 frm.grid()
 
 # Creating our red_arrow-image objects
-red_arrow_left = PhotoImage(file='red_arrow_left.png')
-red_arrow_right = PhotoImage(file='red_arrow_right.png')
-red_arrow_up = PhotoImage(file='red_arrow_up.png')
-red_arrow_down = PhotoImage(file='red_arrow_down.png')
+red_arrow_left = PhotoImage(file='resources/red_arrow_left.png')
+red_arrow_right = PhotoImage(file='resources/red_arrow_right.png')
+red_arrow_up = PhotoImage(file='resources/red_arrow_up.png')
+red_arrow_down = PhotoImage(file='resources/red_arrow_down.png')
 
 # Resizing images to fit on button
 # subsampling by screensize / 100
@@ -219,6 +219,7 @@ horizontal_control_left.config(width=int(horizontal_control_left.master["width"]
 
 
 root.bind('<space>', up_button_pressed)
+# root.bind('Escape', root.quit())
 
 
 def a_pressed(x):
